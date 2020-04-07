@@ -1,0 +1,3 @@
+*.pyc
+venv/
+*.o *.out *.exe

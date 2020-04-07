@@ -1,0 +1,14 @@
+@font-face {
+    font-family: Star Wars;
+    src: url("/static/core/fonts/Star Jedi.ttf");
+}
+
+$font-family_header: Star Wars;
+$default_black-2: #1a1a1a;
+$default_black: #161616;
+$default_black-3: #444;
+$default_yellow: #ebed11;
+$default_red: #e65121;
+$default_green: #4dd185;
+$default_blue: #1e91ea;
+$default_blue_light: rgba(30, 145, 234, 0.5);

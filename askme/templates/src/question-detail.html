@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/question-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/question-item.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block page-pad-left %}
+    <div class="page-pad__left__title">
+        <div class="question-detail__title">{{ question_detail.title }}</div>
+        <div class="question-item__author">
+            <img class="question-item__author__avatar" src="{{ question_detail.profile.avatar.url }}" alt="avatar" />
+            <div class="question-item__author__nickname">{{ question_detail.profile.nickname }}</div>
+        </div>
+    </div>
+
+    <div class="page-pad__left__content">
+        <div class="question-detail">
+            <div class="question-item__tags">
+                <span>Tags:</span>
+                {% for tag in question_detail.tag.all %}
+                    <a href="{{ tag.get_absolute.url }}" class="base_link_v1">{{ tag.title }}</a>
+                {% endfor %}
+            </div>
+            <div class="question-item__answer-count">
+                <span>Answers:</span> {{ question_detail.answers_count }}
+            </div>
+            <a href="#" class="js-vote question-item__votes__like"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                <span class="question-item__votes__count js-rating-1">{{ question_detail.rating }}</span>
+            <a href="#" class="js-vote question-item__votes__dislike"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+            <div class="question-item__content">
+                {{ question_detail.content }}
+            </div>
+        </div>
+        <div class="question-detail__answer-list">
+            {% for answer in answers %}
+                {% include 'src/inc/answer-item.html' %}
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+            <div class="form__question">
+            <form class="form__answer js-form-answer" action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="que_id" value="">
+                <span class="form__answer__title">Your answer</span>
+                <textarea class="form__answer__text" name="text" cols="90" rows="5"></textarea>
+                <div class="form__submit">
+                    <input type="submit" value="ASK!" class="form__submit__button" id="js-form-answer">
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

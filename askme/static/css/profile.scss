@@ -1,0 +1,57 @@
+@import '../core/pallete';
+
+.profile {
+
+  display: flex;
+
+  &__avatar {
+    margin-right: 20px;
+    display: block;
+    position: relative;
+    padding: 5px;
+    height: 128px;
+    width: fit-content;
+
+    border: 2px solid $default_green;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    & img {
+      height: 128px;
+      width: 128px;
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: "\f093";
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 20px;
+      color: white;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+
+      border-radius: 50%;
+
+      background-color: $default_blue_light;
+
+      transition: 0.3s;
+
+    }
+
+    &:hover::after,
+    &:hover {
+      opacity: 1;
+      border-color: $default_blue;
+    }
+  }
+}

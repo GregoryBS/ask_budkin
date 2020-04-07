@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block page-pad-left %}
+    <div class="page-pad__left__title">
+        <div class="page-pad__left__title__div">Login</div>
+    </div>
+
+    <div class="page-pad__left__content">
+     <div class="form__errors"></div>
+        <form class="form js-form-signup" action="#" method="POST" >
+            {% csrf_token %}
+            <div class="form__item">
+                <label class="form__label">Username</label>
+                <input id="js-title" name="username" type="text">
+            </div>
+            <div class="form__item">
+                <label class="form__label">Password</label>
+                <input id="js-tags" name="password" type="password" multiple>
+            </div>
+            <div class="form__submit">
+                <input type="submit" value="Login" class="form__submit__button" id="js-form-signup">
+            </div>
+            <a href="#" class="form__redirect">Error login or password</a>
+        </form>
+    </div>
+{% endblock %}

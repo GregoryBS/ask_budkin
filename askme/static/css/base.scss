@@ -1,0 +1,311 @@
+@import 'pallete';
+
+a:hover {
+  text-decoration: none;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.preaload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+}
+
+body {
+  margin:0;
+  padding: 0;
+
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-weight: 100;
+
+  background-color: $default_black;
+}
+
+.page-pad {
+  height: 100%;
+  width: 100%;
+
+  &__header {
+    padding: 20px 100px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid $default_green;
+
+    background-color: $default_black-2;
+    color: white;
+
+  }
+
+  &__content {
+
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+    &__left {
+      width: 100%;
+      margin: 50px;
+
+      &__title {
+        position: relative;
+        height: 50px;
+
+        font-family: "Star Wars";
+        font-weight: 100;
+        font-size: 25px;
+
+        color: white;
+
+        & a {
+          margin-right: 60px;
+          z-index: 999;
+          cursor: pointer;
+        }
+
+        &__div {
+          text-align: center;
+          width: fit-content;
+          position: relative;
+
+          &::after {
+            content: "";
+
+            position: absolute;
+            z-index: 0;
+            width: 105%;
+            bottom: -10px;
+            right: -30px;
+            transform: skewX(-45deg);
+            height: 50px;
+
+            border-bottom: 2px solid $default_black-3;
+            border-right: 2px solid $default_black-3;
+
+            transition: 0.3s;
+          }
+
+        }
+
+        & a:first-child {
+
+
+          &::after {
+            content: "";
+
+            position: absolute;
+            z-index: 0;
+            width: 230px;
+            bottom: 0;
+            left: 15px;
+            transform: skewX(-45deg);
+            height: 50px;
+
+            border-bottom: 2px solid $default_black-3;
+            border-right: 2px solid $default_black-3;
+
+            transition: 0.3s;
+          }
+
+          &:hover::after {
+            border-color: $default_green;
+          }
+        }
+
+        & a:last-child {
+
+          font-size: 20px;
+
+          &::before {
+            content: "";
+
+            position: absolute;
+            z-index: 0;
+            top: -2px;
+            left: 247px;
+            width: 250px;
+            transform: skewX(-45deg);
+            height: 50px;
+
+
+            border-top: 2px solid $default_black-3;
+            border-left: 2px solid $default_black-3;
+
+            transition: 0.3s;
+          }
+
+          &:hover::before {
+            border-color: $default_green;
+          }
+        }
+      }
+
+      &__content {
+        margin: 30px 0;
+
+        &__pagination {
+          margin-top: 10px;
+          color: white;
+        }
+      }
+    }
+
+    &__right {
+      margin: 50px 50px 50px 0;
+
+      width: 400px;
+
+    }
+
+}
+
+.pagination-item {
+  margin: 5px;
+  padding: 5px 10px;
+
+  border: 1px solid $default_black-3;
+  border-radius: 5px;
+
+  transition: 0.3s;
+
+  &:hover {
+    border-color: $default_green;
+  }
+}
+
+.right-block {
+
+  margin-bottom: 50px;
+
+  color: white;
+
+  &__title {
+    position: relative;
+    padding: 10px 15px;
+
+    color: white;
+    text-align: center;
+    font-family: "Star Wars";
+
+    border: 1px solid $default_black-3;
+    border-top-left-radius: 5px;
+
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+
+      transform: skewX(45deg);
+      height: 10px;
+      width: 20px;
+
+      background-color: $default_black;
+
+    }
+
+    &::after {
+      top: -1px;
+      right: -16px;
+      border-left: 1px solid $default_black-3 ;
+    }
+
+    &::before {
+      bottom: -1px;
+      left: -16px;
+
+      border-right: 1px solid $default_black-3;
+    }
+
+  }
+
+
+  &__content,
+  &__members {
+    display: flex;
+    margin-left: 10px;
+    padding: 10px 15px;
+
+    background-color: $default_black-2;
+    border-bottom: 1px solid $default_black-3;
+    border-right: 1px solid $default_black-3;
+    border-left: 1px solid $default_black-3;
+
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &__content {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  &__members {
+    flex-direction: column;
+
+    &__item {
+      margin: 10px;
+
+      color: white;
+    }
+  }
+}
+
+.base_link_v1 {
+
+  margin: 5px 10px;
+  padding: 5px 0;
+  position: relative;
+
+  cursor: pointer;
+
+  &::after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: $default_green;
+    content: "";
+    transition: all 0.3s ease-out;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    cursor: pointer;
+    width: 100%;
+  }
+
+}
+
+.base_link_v2 {
+  padding: 5px 10px;
+  margin: 5px 10px;
+
+  cursor: pointer;
+
+  border:1px solid $default_black-3;
+  border-radius: 5px;
+
+  color: white;
+
+  transition: 0.3s;
+
+  &:hover {
+    border-color: $default_green;
+  }
+}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sing Up{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block page-pad-left %}
+<div class="page-pad__left__content">
+
+    <div class="page-pad__left__title">
+        <div class="page-pad__left__title__div">Profile</div>
+    </div>
+
+    <div class="page-pad__left__content">
+        <div class="profile">
+            <label class="profile__avatar" for="upload_image">
+                <img src="{{ user.profile.avatar.url }}" alt="fa"/>
+            </label>
+            <form class="form js-update-profile" method="POST" action="#">
+                <div class="form__errors"></div>
+                <div class="form__item">
+                    <label class="form__item__label">Nickname</label>
+                    <input id="js-nickname" name="nickname" type="text" value="{{ user.profile.nickname }}">
+                </div>
+                <div class="form__item">
+                    <label class="form__item__label">Email</label>
+                    <input name="email" type="email" value="{{ user.email }}">
+                </div>
+                <div class="form__submit">
+                    <input type="submit" value="Save" class="form__submit__button" id="js-form-update-profile">
+                </div>
+            </form>
+        </div>
+
+        <form class="form js-update-avatar" action="#" method="POST">
+            <div class="form__errors"></div>
+            <input type="file" name="avatar" id="upload_image" accept="image/png" value="{{ avatar }}">
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load static %}
+
+<div class="question-item">
+    <div class="question-item__author">
+        <img class="question-item__author__avatar" src="{{ answer.profile.avatar.url }}" alt="avatar" />
+        <div class="question-item__author__nickname">{{ answer.profile.nickname }}</div>
+    </div>
+    <div class="question-item__content">
+        {{ answer.content }}
+    </div>
+    {% if user == question_detail.profile.user %}
+        <div class="form__check"><input type="checkbox" name="correct" value="Correct" />Correct</div>
+    {% endif %}
+</div>

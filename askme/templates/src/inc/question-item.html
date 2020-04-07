@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="question-item">
+    <div class="question-item__header">
+        <a href="{{ question.get_absolute_url }}" class="question-item__title">{{ question.title }}</a>
+        <div class="question-item__author">
+            <img class="question-item__author__avatar" src="{{ question.profile.avatar.url }}" alt="avatar" />
+            <div class="question-item__author__nickname">{{ question.profile.nickname }}</div>
+        </div>
+    </div>
+    <div class="question-item__tags">
+        <span>Tags:</span>
+        {% for tag in question.tag.all %}
+            <a href="{{ tag.get_absolute_url }}" class="base_link_v1">{{ tag.title }}</a>
+        {% endfor %}
+    </div>
+    <div class="question-item__answer-count">
+        <span>Answers:</span> {{ question.answers_count }}
+    </div>
+    <a href="#" class="js-vote question-item__votes__like"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+    <span class="question-item__votes__count js-rating-1">{{ question.rating }}</span>
+    <a href="#" class="js-vote question-item__votes__dislike"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+    <div class="question-item__content">
+        {{ question.content }}
+    </div>
+    <div class="question-item__date">{{ question.created_dt }}</div>
+</div>

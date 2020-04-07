@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    {% block meta %}{% endblock %}
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+    {% block styling %}{% endblock %}
+</head>
+
+<body>
+{% block base %}
+    <div class="page-pad">
+        <div class="page-pad__header">
+            {% include 'src/header.html' %}
+        </div>
+        <div class="page-pad__content">
+            <div class="page-pad__left">
+                {% block page-pad-left %}{% endblock %}
+            </div>
+            <div class="page-pad__right">
+                {% block page-pag-right %}{% endblock %}
+                <div class="right-block">
+                    <div class="right-block__title">Popular Tags</div>
+                    <div class="right-block__content">
+                        <a href="#" class="base_link_v1">TWICE</a>
+                        <a href="#" class="base_link_v1">SANA</a>
+                        <a href="#" class="base_link_v1">MOMO</a>
+                        <a href="#" class="base_link_v1">2YEON</a>
+                        <a href="#" class="base_link_v1">Anime</a>
+                    </div>
+                </div>
+                <div class="right-block">
+                    <div class="right-block__title">Popular Members</div>
+                    <div class="right-block__members">
+                        <div class="right-block__members__item">User1</div>
+                        <div class="right-block__members__item">User2</div>
+                        <div class="right-block__members__item">User0</div>
+                        <div class="right-block__members__item">Admin</div>
+                        <div class="right-block__members__item">Who</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_bottom %}
+{% endblock %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+</body>
+</html>

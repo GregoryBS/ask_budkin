@@ -1,0 +1,21 @@
+{% load static %}
+
+<a href="{% url 'pages:index' %}" class="header__title base_link_v1"><span>ask!</span></a>
+<form class="header__form">
+    <div class="header__form__input">
+        <input type="text" name="search" placeholder="Search..." aria-label="Search">
+    </div>
+</form>
+{% if user.is_authenticated %}
+    <a href="{% url 'pages:ask' %}" class="header__ask-button">ask!</a>
+    <div class="header__user-information">
+        <img class="header__user-information__avatar" src="{{ user.profile.avatar.url }}" alt="Avatar">
+        <a href="{% url 'settings' %}" class="header__user-information__link">{{ user.profile.nickname }}</a>
+        <a href="{% url 'logout' %}" class="base_link_v2">Logout</a>
+    </div>
+{% else %}
+    <div class="header__user-information">
+    <a href="{% url 'login' %}" class="base_link_v1">Log in</a>
+    <a href="{% url 'singup' %}" class="base_link_v2">Sing up</a>
+    </div>
+{% endif %}

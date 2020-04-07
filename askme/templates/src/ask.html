@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ask{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block page-pad-left %}
+    <div class="page-pad__left__title">
+        <div class="page-pad__left__title__div">ask</div>
+    </div>
+
+    <div class="page-pad__left__content">
+        <div class="form__errors"></div>
+        <form class="form js-form-ask" action="" method="POST" >
+            {% csrf_token %}
+            <div class="form__item">
+                <label class="form__item__label">Title</label>
+                <input id="js-title" name="title" type="text">
+            </div>
+            <div class="form__item">
+                <label class="form__item__label">Content</label>
+                <textarea class="form__ask__text" name="content" cols="70" rows="5" ></textarea>
+            </div>
+            <div class="form__item">
+                <label class="form__item__label">Tags</label>
+                <input id="js-tags" name="tag" type="text" multiple>
+            </div>
+            <div class="form__submit">
+                <input type="submit" value="ASK!" class="form__submit__button" id="js-form-ask">
+            </div>
+        </form>
+    </div>
+{% endblock %}

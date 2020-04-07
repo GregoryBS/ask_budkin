@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/question-item.css' %}">
+{% endblock %}
+
+{% block page-pad-left %}
+    <div class="page-pad__left__title">
+    {% if request.path == "/" %}
+        <a href="{% url 'pages:index' %}">new questions</a>
+        <a href="{% url 'pages:hot' %}">hot questions</a>
+    {% elif request.path == "/hot/" %}
+        <a href="{% url 'pages:hot' %}">hot questions</a>
+        <a href="{% url 'pages:index' %}">new questions</a>
+    {% else  %}
+        {% for tag in tag_list %}
+            {% if tag.title in request.path %}
+                <div class="page-pad__left__title__div">Tag: {{ tag.title }} </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    <div class="page-pad__left__content">
+        {% for question in page_obj%}
+            {% include 'src/inc/question-item.html' %}
+        {% endfor %}
+    </div>
+{% endblock %}

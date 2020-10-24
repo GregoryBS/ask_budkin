@@ -14,7 +14,7 @@
     display: ruby;
 }
 
-.user-part {
+.user-part, .vote-part {
     text-align: center;
 }
 

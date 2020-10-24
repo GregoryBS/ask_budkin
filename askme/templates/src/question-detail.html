@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}QTitle{% endblock %}
+{% block title %}{{ question.title }}{% endblock %}
 
 {% block page-left %}
     <div class="question-item">
         <div class="media text-muted pt-3 pb-2 mb-4 border-bottom border-gray">
             <div class="col-3 user-part">
                 <img class="bd-placeholder-img rounded" src="{% static 'img/avatar.png' %}" width="150" height="150" role="img"></img>
-                <div class="user-nickname">Profile_nick</div>
-                <div class="question-date">qDate</div>
+                <div class="user-nickname">{{ question.profile.nick }}</div>
+                <div class="question-date">{{ question.q_date }}</div>
             </div>
             <div class="col-8 question-part">
                 <p class="media-body mb-0 small">
-                    <a href="{% url 'question' pk=question %}"><h5><strong class="d-block text-gray-dark">qTitle</strong></h5></a>
+                    <a href="{% url 'question' pk=question.id %}"><h5><strong class="d-block text-gray-dark">{{ question.title }}</strong></h5></a>
                 {{ question.text }}
                 </p>
                 <div class="question-tags">
                     <span>Tags:</span>
                     {% for tag in question.tag.all %}
-                        <a href="#">Tag-title</a>
+                        <a href="{% url 'tag' slug=tag.title %}">{{ tag.title }}</a>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-1 pt-4 vote-part">
                 <button type="submit" class="btn btn-outline-success like">+</button>
-                <span class="votes">Rate</span>
+                <span class="votes">{{ question.rating }}</span>
                 <button type="submit" class="btn btn-outline-danger dislike">-</button>
             </div>
         </div>

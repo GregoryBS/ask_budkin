@@ -3,33 +3,42 @@
 
 {% block title %}Ask{% endblock %}
 
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'css/form.css' %}">
-{% endblock %}
+{% block page-left %}
+    <div class="page-left-title"><h4>New question</h4></div>
 
-{% block page-pad-left %}
-    <div class="page-pad__left__title">
-        <div class="page-pad__left__title__div">ask</div>
-    </div>
+    <div class="page-left-content">
+        <div class="form-errors">
+            {% for error in errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
 
-    <div class="page-pad__left__content">
-        <div class="form__errors"></div>
-        <form class="form js-form-ask" action="" method="POST" >
+        <form class="form js-form-ask" action="{% url 'ask' %}" method="post">
             {% csrf_token %}
-            <div class="form__item">
-                <label class="form__item__label">Title</label>
-                <input id="js-title" name="title" type="text">
+            <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" name="title" class="form-control">
+                </div>
             </div>
-            <div class="form__item">
-                <label class="form__item__label">Content</label>
-                <textarea class="form__ask__text" name="content" cols="70" rows="5" ></textarea>
+            <div class="form-group row">
+                <label for="text" class="col-sm-2 col-form-label">Text</label>
+                <div class="col-sm-10">
+                    <textarea class="form-question-text" name="text" cols="64" rows="10"></textarea>
+                </div>
             </div>
-            <div class="form__item">
-                <label class="form__item__label">Tags</label>
-                <input id="js-tags" name="tag" type="text" multiple>
+            <div class="form-group row">
+                <label for="tags" class="col-sm-2 col-form-label">Tags</label>
+                <div class="col-sm-10">
+                    <input type="text" name="tags" class="form-control">
+                </div>
             </div>
-            <div class="form__submit">
-                <input type="submit" value="ASK!" class="form__submit__button" id="js-form-ask">
+
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="mx-sm-3">
+                    <button type="submit" class="btn btn-success">Ask!</button>
+                </div>
             </div>
         </form>
     </div>

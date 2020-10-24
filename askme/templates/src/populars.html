@@ -1,0 +1,21 @@
+<div class="card pop-tags">
+    <div class="card-body">
+        <h4 class="card-title">Popular Tags</h4>
+
+        {% for tag in pop_tags %}
+        <a href="#" class="card-link">{{ tag }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card pop-users">
+    <div class="card-body">
+        <h4 class="card-title">Popular Members</h4>
+
+        {% for user in pop_users %}
+        <div>
+            <a href="#" class="card-link">{{ user }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block page-left %}
-    <div class="page-left-title"><h4>Settings: {{ request.user }}</h4></div>
+    <div class="page-left-title"><h4>Sign up</h4></div>
 
     <div class="page-left-content">
         <div class="form-errors">
@@ -13,7 +13,7 @@
             {% endfor %}
         </div>
 
-        <form class="form js-form-settings" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+        <form class="form js-form-signup" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group row">
                 <label for="login" class="col-sm-3 col-form-label">Login</label>
@@ -34,6 +34,18 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="password" class="col-sm-3 col-form-label">Password</label>
+                <div class="mx-sm-3">
+                    <input type="password" name="password" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password_check" class="col-sm-3 col-form-label">Repeat password</label>
+                <div class="mx-sm-3">
+                    <input type="password" name="password_check" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="avatar" class="col-sm-3 col-form-label">Upload avatar</label>
                 <div class="mx-sm-3">
                     <input type="file" name="avatar" accept="image/png">
@@ -43,7 +55,7 @@
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="mx-sm-3">
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success">Create account</button>
                 </div>
             </div>
         </form>

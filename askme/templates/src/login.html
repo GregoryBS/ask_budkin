@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login{% endblock %
 
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'css/form.css' %}">
-{% endblock %}
+{% block page-left %}
+    <div class="page-left-title"><h4>Login</h4></div>
 
-{% block page-pad-left %}
-    <div class="page-pad__left__title">
-        <div class="page-pad__left__title__div">Login</div>
-    </div>
+    <div class="page-left-content">
+        <div class="form-errors">
+            {% for error in errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
 
-    <div class="page-pad__left__content">
-     <div class="form__errors"></div>
-        <form class="form js-form-signup" action="#" method="POST" >
+        <form class="form js-form-signup" action="{% url 'login' %}" method="post" >
             {% csrf_token %}
-            <div class="form__item">
-                <label class="form__label">Username</label>
-                <input id="js-title" name="username" type="text">
+            <div class="form-group row">
+                <label for="login" class="col-sm-2 col-form-label">Login</label>
+                <div class="mx-sm-3">
+                    <input type="text" name="login" class="form-control" placeholder="Enter your login">
+                </div>
             </div>
-            <div class="form__item">
-                <label class="form__label">Password</label>
-                <input id="js-tags" name="password" type="password" multiple>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                <div class="mx-sm-3">
+                    <input type="password" name="password" class="form-control">
+                </div>
             </div>
-            <div class="form__submit">
-                <input type="submit" value="Login" class="form__submit__button" id="js-form-signup">
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="mx-sm-3">
+                    <button type="submit" class="btn btn-success">Log in</button>
+                    <div class="mt-3"><a href="{% url 'signup' %}">create new account</a></div>
+                </div>
             </div>
-            <a href="#" class="form__redirect">Error login or password</a>
         </form>
     </div>
 {% endblock %}

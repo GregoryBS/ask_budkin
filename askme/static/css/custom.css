@@ -1,0 +1,33 @@
+.nav-right-corner {
+    margin-top: 15px;
+}
+
+.pop-tags, .pop-users {
+    border: none;
+}
+
+.page-right {
+    padding-left: 30px;
+}
+
+.content-title {
+    display: ruby;
+}
+
+.user-part {
+    text-align: center;
+}
+
+.answer-part {
+    font-size: 20px;
+}
+
+.dislike {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+body {
+    min-height: 75rem;
+    padding-top: 7rem;
+  }

@@ -1,14 +1,25 @@
 {% load static %}
 
-<div class="question-item">
-    <div class="question-item__author">
-        <img class="question-item__author__avatar" src="{{ answer.profile.avatar.url }}" alt="avatar" />
-        <div class="question-item__author__nickname">{{ answer.profile.nickname }}</div>
+<div class="answer-item">
+    <div class="media text-muted pt-3 pb-2 mb-4 border-bottom border-gray">
+        <div class="col-2 user-part">
+            <img class="bd-placeholder-img rounded" src="{% static 'img/avatar.png' %}" width="64" height="64" role="img"></img>
+            <div class="user-nickname">{{ answer.profile.nick }}</div>
+            <div class="answer-date">{{ answer.a_date }}</div>
+        </div>
+        <div class="col-9 answer-part">
+            <p class="media-body mb-2 small">
+                {{ answer.text }}
+            </p>
+
+
+                <h6><div class="row pl-3"><input type="checkbox" name="correct" value="correct"/>Correct!</div></h6>
+
+        </div>
+        <div class="col-1 vote-part">
+            <button type="submit" class="btn btn-outline-success like">+</button>
+            <span class="votes">{{ answer.rating }}</span>
+            <button type="submit" class="btn btn-outline-danger dislike">-</button>
+        </div>
     </div>
-    <div class="question-item__content">
-        {{ answer.content }}
-    </div>
-    {% if user == question_detail.profile.user %}
-        <div class="form__check"><input type="checkbox" name="correct" value="Correct" />Correct</div>
-    {% endif %}
 </div>

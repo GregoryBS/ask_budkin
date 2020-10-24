@@ -3,30 +3,38 @@
 
 {% block title %}Home{% endblock %}
 
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'css/question-item.css' %}">
-{% endblock %}
-
-{% block page-pad-left %}
-    <div class="page-pad__left__title">
-    {% if request.path == "/" %}
-        <a href="{% url 'pages:index' %}">new questions</a>
-        <a href="{% url 'pages:hot' %}">hot questions</a>
-    {% elif request.path == "/hot/" %}
-        <a href="{% url 'pages:hot' %}">hot questions</a>
-        <a href="{% url 'pages:index' %}">new questions</a>
-    {% else  %}
-        {% for tag in tag_list %}
-            {% if tag.title in request.path %}
-                <div class="page-pad__left__title__div">Tag: {{ tag.title }} </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+{% block page-left %}
+    <div class="content-title">
+        {% if request.path == "/" %}
+            <a href="{% url 'index' %}"><h4>New questions</h4></a>
+            <a href="{% url 'hot' %}"><h6>Hot questions</h6></a>
+        {% elif request.path == "/hot/" %}
+            <a href="{% url 'hot' %}"><h4>Hot questions</h4></a>
+            <a href="{% url 'index' %}"><h6>New questions</h6></a>
+        {% else  %}
+            <div class="tag-title"><h4>Tag: {{ tag }}</h4></div>
+        {% endif %}
     </div>
 
-    <div class="page-pad__left__content">
-        {% for question in page_obj%}
+    <div class="questions">
+        {% for question in page_objs %}
             {% include 'src/inc/question-item.html' %}
         {% endfor %}
     </div>
+
+    <nav aria-label="pages">
+        <div class="pagination">
+            {% if page_objs.has_previous %}
+                <a class="page-link" href="?page=1"> 1</a>
+                <a class="page-link" href="?page={{ page_objs.previous_page_number }}"> &laquo; </a>
+            {% endif %}
+    
+            <a class="page-link" style="background-color: lightgrey" href="#">{{ page_objs.number }}</a>
+        
+            {% if p_objs.has_next %}
+                <a class="page-link" href="?page={{ page_objs.next_page_number }}">&raquo;</a>
+                <a class="page-link" href="?page={{ page_objs.paginator.num_pages }}">{{ page_objs.paginator.num_pages }}</a>
+            {% endif %}
+        </div>
+    </nav>
 {% endblock %}

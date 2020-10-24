@@ -1,58 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}QTitle{% endblock %}
 
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'css/question-detail.css' %}">
-    <link rel="stylesheet" href="{% static 'css/question-item.css' %}">
-    <link rel="stylesheet" href="{% static 'css/form.css' %}">
-{% endblock %}
-
-{% block page-pad-left %}
-    <div class="page-pad__left__title">
-        <div class="question-detail__title">{{ question_detail.title }}</div>
-        <div class="question-item__author">
-            <img class="question-item__author__avatar" src="{{ question_detail.profile.avatar.url }}" alt="avatar" />
-            <div class="question-item__author__nickname">{{ question_detail.profile.nickname }}</div>
+{% block page-left %}
+    <div class="question-item">
+        <div class="media text-muted pt-3 pb-2 mb-4 border-bottom border-gray">
+            <div class="col-3 user-part">
+                <img class="bd-placeholder-img rounded" src="{% static 'img/avatar.png' %}" width="150" height="150" role="img"></img>
+                <div class="user-nickname">Profile_nick</div>
+                <div class="question-date">qDate</div>
+            </div>
+            <div class="col-8 question-part">
+                <p class="media-body mb-0 small">
+                    <a href="{% url 'question' pk=question %}"><h5><strong class="d-block text-gray-dark">qTitle</strong></h5></a>
+                {{ question.text }}
+                </p>
+                <div class="question-tags">
+                    <span>Tags:</span>
+                    {% for tag in question.tag.all %}
+                        <a href="#">Tag-title</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-1 pt-4 vote-part">
+                <button type="submit" class="btn btn-outline-success like">+</button>
+                <span class="votes">Rate</span>
+                <button type="submit" class="btn btn-outline-danger dislike">-</button>
+            </div>
         </div>
     </div>
 
-    <div class="page-pad__left__content">
-        <div class="question-detail">
-            <div class="question-item__tags">
-                <span>Tags:</span>
-                {% for tag in question_detail.tag.all %}
-                    <a href="{{ tag.get_absolute.url }}" class="base_link_v1">{{ tag.title }}</a>
-                {% endfor %}
-            </div>
-            <div class="question-item__answer-count">
-                <span>Answers:</span> {{ question_detail.answers_count }}
-            </div>
-            <a href="#" class="js-vote question-item__votes__like"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
-                <span class="question-item__votes__count js-rating-1">{{ question_detail.rating }}</span>
-            <a href="#" class="js-vote question-item__votes__dislike"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
-            <div class="question-item__content">
-                {{ question_detail.content }}
-            </div>
-        </div>
-        <div class="question-detail__answer-list">
-            {% for answer in answers %}
-                {% include 'src/inc/answer-item.html' %}
-            {% endfor %}
-        </div>
-        {% if user.is_authenticated %}
-            <div class="form__question">
-            <form class="form__answer js-form-answer" action="" method="POST">
+    <div class="answers">
+        {% for answer in answers %}
+            {% include 'src/inc/answer-item.html' %}
+        {% endfor %}
+    </div>
+
+        <div class="form-answer">
+            <form class="form js-form-answer" action="#" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="que_id" value="">
-                <span class="form__answer__title">Your answer</span>
-                <textarea class="form__answer__text" name="text" cols="90" rows="5"></textarea>
-                <div class="form__submit">
-                    <input type="submit" value="ASK!" class="form__submit__button" id="js-form-answer">
-                </div>
+                <textarea class="form__answer__text" name="text" cols="80" rows="5" placeholder="Enter your answer"></textarea>
+                <button type="submit" class="btn btn-success">Answer</button>
             </form>
         </div>
-        {% endif %}
-    </div>
+
 {% endblock %}

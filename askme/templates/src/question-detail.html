@@ -32,12 +32,14 @@
     </div>
 
     <div class="answers">
-        {% for answer in answers %}
+        {% for answer in page_objs %}
             {% include 'src/inc/answer-item.html' %}
         {% endfor %}
     </div>
 
-        <div class="form-answer">
+    {% include 'src/inc/pagination.html' %}
+
+        <div class="form-answer mt-4">
             <form class="form js-form-answer" action="#" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="que_id" value="">

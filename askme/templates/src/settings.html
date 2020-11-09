@@ -7,10 +7,13 @@
     <div class="page-left-title"><h4>Settings: {{ request.user }}</h4></div>
 
     <div class="page-left-content">
-        <div class="form-errors">
-            {% for error in errors %}
-                <div>{{ error }}</div>
-            {% endfor %}
+        <div class="form-errors row">
+            <div class="col-sm-2"></div>
+            <div class="mx-sm-3">
+                {% for error in errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
         </div>
 
         <form class="form js-form-settings" action="{% url 'signup' %}" method="post" enctype="multipart/form-data">

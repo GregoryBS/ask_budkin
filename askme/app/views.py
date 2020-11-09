@@ -62,10 +62,11 @@ def hot_view(request):
                                               })
 
 def questions_view(request, pk):
+    page = paginate(request, answers)
     return render(request, 'src/question-detail.html', {'pop_tags' : pop_tags,
                                                         'pop_users' : pop_users,
                                                         'question' : questions[pk],
-                                                        'answers' : answers
+                                                        'page_objs' : page
                                                         })
 
 def tags_view(request, slug):
@@ -83,7 +84,8 @@ def tags_view(request, slug):
 
 def login_view(request):
     return render(request, 'src/login.html', {'pop_tags' : pop_tags,
-                                              'pop_users' : pop_users 
+                                              'pop_users' : pop_users,
+                                              'errors' : ['Неверный логин или пароль']
                                               })
 
 def signup_view(request):

@@ -7,10 +7,13 @@
     <div class="page-left-title"><h4>New question</h4></div>
 
     <div class="page-left-content">
-        <div class="form-errors">
-            {% for error in errors %}
-                <div>{{ error }}</div>
-            {% endfor %}
+        <div class="form-errors row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                {% for error in errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
         </div>
 
         <form class="form js-form-ask" action="{% url 'ask' %}" method="post">

@@ -14,18 +14,18 @@
             </p>
             <div class="question-tags">
                 <span>Tags:</span>
-                {% for tag in question.tag.all %}
-                    <a href="{% url 'tag' slug=tag.title %}">{{ tag.title }}</a>
+                {% for tag in question.tags.all %}
+                    <a href="#">{{ tag.title }}</a>
                 {% endfor %}
             </div>
             <div class="question-answer-count">
-                <span>Answers:</span> {{ question.answers_count }}
+                <span>Answers:</span> {{ question.answer.count }}
             </div>
         </div>
         <div class="col-1 pt-4 vote-part">
-            <button type="submit" class="btn btn-outline-success like">+</button>
-            <span class="votes">{{ question.rating }}</span>
-            <button type="submit" class="btn btn-outline-danger dislike">-</button>
+            <button id="like_question_{{ question.id }}" type="submit" onclick="vote({{ question.id }}, 1, 0)" class="btn btn-outline-success like">+</button>
+            <span id="rating_question_{{ question.id }}" class="votes">{{ question.rating }}</span>
+            <button id="dislike_question_{{ question.id }}" type="submit" onclick="vote({{ question.id }}, -1, 0)" class="btn btn-outline-danger dislike">-</button>
         </div>
     </div>
 </div>

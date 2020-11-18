@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpRequest, Http404
 from django.core.paginator import Paginator
+from .models import *
 
 from faker import Faker
 from random import randint
+import json
 
 fake = Faker()
 
@@ -45,7 +47,8 @@ def paginate(request, objects):
     return page
 
 def index_view(request):
-    new_questions = sorted(questions, key=lambda x: x['q_date'], reverse=True)
+    new_questions = Question.objects.new()
+    # new_questions = sorted(questions, key=lambda x: x['q_date'], reverse=True)
     page = paginate(request, new_questions)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -54,7 +57,8 @@ def index_view(request):
 
 
 def hot_view(request):
-    top_questions = sorted(questions, key=lambda x: x['rating'], reverse=True)
+    top_questions = Question.objects.hot()
+    # top_questions = sorted(questions, key=lambda x: x['rating'], reverse=True)
     page = paginate(request, top_questions)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -62,19 +66,22 @@ def hot_view(request):
                                               })
 
 def questions_view(request, pk):
+    question = Question.objects.by_id(pk)
+    answers = question.answer.all()
     page = paginate(request, answers)
     return render(request, 'src/question-detail.html', {'pop_tags' : pop_tags,
                                                         'pop_users' : pop_users,
-                                                        'question' : questions[pk],
+                                                        'question' : question,
                                                         'page_objs' : page
                                                         })
 
 def tags_view(request, slug):
-    tagged = []
-    for q in questions:
-        for t in q['tag']['all']:
-            if t['title'] == slug:
-                tagged.append(q)
+    tagged = Tag.objects.by_tag(slug)
+    # tagged = []
+    # for q in questions:
+    #     for t in q['tag']['all']:
+    #         if t['title'] == slug:
+    #             tagged.append(q)
     page = paginate(request, tagged)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -105,3 +112,12 @@ def ask_view(request):
 
 def logout_view(request):
     return
+
+def vote_view(request):
+    pid = request.user.profile.id
+    oid = request.POST.get('oid')
+    vote = request.POST.get('event')
+    flag = request.POST.get('flag')
+    rating = Vote.objects.add_vote(vote, pid, oid, flag)
+    return HttpResponse(json.dumps({ 'rating' : rating }), 
+                        content_type='application/json')

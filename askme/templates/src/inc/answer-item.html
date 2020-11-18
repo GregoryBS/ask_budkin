@@ -17,9 +17,9 @@
 
         </div>
         <div class="col-1 vote-part">
-            <button type="submit" class="btn btn-outline-success like">+</button>
-            <span class="votes">{{ answer.rating }}</span>
-            <button type="submit" class="btn btn-outline-danger dislike">-</button>
+            <button id="like_answer_{{ answer.id }}" type="submit" onclick="vote({{ answer.id }}, 1, 1)" class="btn btn-outline-success like">+</button>
+            <span id="rating_answer_{{ answer.id }}" class="votes">{{ answer.rating }}</span>
+            <button id="dislike_answer_{{ answer.id }}" type="submit" onclick="vote({{ answer.id }}, -1, 1)" class="btn btn-outline-danger dislike">-</button>
         </div>
     </div>
 </div>

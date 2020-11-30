@@ -39,24 +39,28 @@ class Command(BaseCommand):
             self.generate_votes(votes_cnt)
 
     def generate_users(self, users_cnt):
-        dels = ['', ' ', '_', '-']
+        dels = ['', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_', '-']
         for i in range(users_cnt):
-            d1 = dels[randint(0, 3)]
-            d2 = dels[randint(0, 3)]
+            d1 = dels[randint(0, 12)]
+            d2 = dels[randint(0, 12)]
             username = (fake.name().split(' ')[randint(0, 1)] + d1 + \
-                       fake.word() + d2 + fake.sentence()[:7])[:30]
+                       fake.word() + d2 + fake.sentence().split(' ')[0])[:30]
             u = User(username=username, password=fake.password(), email=fake.email())
             u.save()
-            p = Profile(user=u, nick=u.username, avatar="../../../static/img/avatar.png")
+            p = Profile(nick=u.username, avatar="avatar.png", user_id=u.id)
             p.save()
 
     def generate_tags(self, tags_cnt):
         dels = ['', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_', '-']
+        tags = []
         for i in range(tags_cnt):
             title = fake.word()
             d = dels[randint(0, 12)]
-            t = Tag(title=title + d + fake.word())
-            t.save()
+            tags.append(Tag(title=title + d + fake.word()))
+            if len(tags) > 1000 or i + 1 == tags_cnt:
+                Tag.objects.bulk_create(tags)
+                tags.clear()
+                print(i)
     
     def generate_questions(self, questions_cnt):
         p_ids = Profile.objects.values_list('id', flat=True)

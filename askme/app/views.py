@@ -1,33 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest, Http404
 from django.core.paginator import Paginator
+from django.utils import timezone
 from .models import *
-
-from faker import Faker
-from random import randint
+from .forms import LoginForm, ProfileForm, AskForm, AnswerForm
 import json
-
-fake = Faker()
 
 tags = ['TWICE', 'Sana', 'Momo', '2YEON', 'Anime']
 pop_tags = [{'title' : tags[i] } for i in range(5)]
 pop_users = ['user1', 'user2', 'admin', 'me', 'whoever']
-text = 'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.'
-questions = [{'id': i,
-              'title' : fake.name(),
-              'text' : fake.sentence(),
-              'q_date' : fake.date(),
-              'answers_count' : randint(0, 5),
-              'rating' : randint(-20, 20),
-              'profile' : {'nick' : fake.name() },
-              'tag' : {'all' : [pop_tags[randint(0, 4)]] },
-             } for i in range(20)]
-answers = [{'text' : fake.sentence(),
-            'a_date' : fake.date(),
-            'rating' : randint(-20, 20),
-            'profile' : {'nick' : fake.name() } 
-            } for i in range(5)]
 
 def paginate(request, objects):
     try:
@@ -48,7 +32,6 @@ def paginate(request, objects):
 
 def index_view(request):
     new_questions = Question.objects.new()
-    # new_questions = sorted(questions, key=lambda x: x['q_date'], reverse=True)
     page = paginate(request, new_questions)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -58,7 +41,6 @@ def index_view(request):
 
 def hot_view(request):
     top_questions = Question.objects.hot()
-    # top_questions = sorted(questions, key=lambda x: x['rating'], reverse=True)
     page = paginate(request, top_questions)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -77,11 +59,6 @@ def questions_view(request, pk):
 
 def tags_view(request, slug):
     tagged = Tag.objects.by_tag(slug)
-    # tagged = []
-    # for q in questions:
-    #     for t in q['tag']['all']:
-    #         if t['title'] == slug:
-    #             tagged.append(q)
     page = paginate(request, tagged)
     return render(request, 'src/index.html', {'pop_tags' : pop_tags,
                                               'pop_users' : pop_users,
@@ -90,29 +67,95 @@ def tags_view(request, slug):
                                               })
 
 def login_view(request):
-    return render(request, 'src/login.html', {'pop_tags' : pop_tags,
-                                              'pop_users' : pop_users,
-                                              'errors' : ['Неверный логин или пароль']
-                                              })
+    errors = []
+    next_page = request.GET.get('next', '/')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(request, username=form.cleaned_data['login'], password=form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                return redirect(next_page)
+            errors.append('Invalid username or password')
+    else:
+        form = LoginForm()
 
-def signup_view(request):
-    return render(request, 'src/signup.html', {'pop_tags' : pop_tags,
-                                               'pop_users' : pop_users 
+    return render(request, 'src/login.html', { 'form': form, 
+                                               'errors': errors, 
+                                               'pop_tags' : pop_tags,
+                                               'pop_users' : pop_users,
+                                               'next' : next_page
                                                })
 
+def signup_view(request):
+    errors = []
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+
+        errors = form.errors
+
+    else:
+        form = ProfileForm()
+
+    return render(request, 'src/signup.html', { 'form': form, 
+                                                'errors': errors, 
+                                                'pop_tags' : pop_tags,
+                                                'pop_users' : pop_users  
+                                                })
+
+@login_required
 def settings_view(request):
-    return render(request, 'src/settings.html', {'pop_tags' : pop_tags,
+    errors = []
+    u = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save_changes(u.id)
+        else:
+            errors = form.errors
+    else:
+        form = ProfileForm({'username': u.username, 'password': u.password,
+                            'email': u.email, 'nick': u.profile.nick,
+                            'avatar': u.profile.avatar })
+
+    return render(request, 'src/settings.html', {'form': form, 'errors': errors,
+                                                 'pop_tags' : pop_tags,
                                                  'pop_users' : pop_users 
                                                  })
 
+@login_required
 def ask_view(request):
-    return render(request, 'src/ask.html', {'pop_tags' : pop_tags,
+    errors = []
+    if request.method == 'POST':
+        form = AskForm(request.POST)
+        if form.is_valid():
+            q = form.save(request.user.profile.id)
+            return redirect(reverse('question', kwargs={'pk': q.id}))
+        
+        errors = form.errors
+    else:
+        form = AskForm()
+
+    return render(request, 'src/ask.html', {'form': form, 'errors': errors,
+                                            'pop_tags' : pop_tags,
                                             'pop_users' : pop_users 
                                             })
 
+@login_required
 def logout_view(request):
-    return
+    if not request.user.is_authenticated:
+        raise Http404
+    logout(request)
+    next_page = request.GET.get('next')
+    if next_page is None:
+        next_page = '/'
+    return redirect(next_page)
 
+@login_required
 def vote_view(request):
     pid = request.user.profile.id
     oid = request.POST.get('oid')
@@ -121,3 +164,14 @@ def vote_view(request):
     rating = Vote.objects.add_vote(vote, pid, oid, flag)
     return HttpResponse(json.dumps({ 'rating' : rating }), 
                         content_type='application/json')
+
+@login_required
+def answer_view(request, pk):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            form.save(pk, request.user.profile.id)
+
+    else:
+        form = AnswerForm()
+    return redirect(reverse('question', kwargs={'pk': pk}))

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from app import views
 
@@ -30,4 +32,5 @@ urlpatterns = [
     path('question/<int:pk>', views.questions_view, name='question'),
     path('tag/<slug:slug>', views.tags_view, name='tag'),
     path('vote/', views.vote_view, name='vote'),
-]
+    path('question/<int:pk>/answer', views.answer_view, name='answer'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

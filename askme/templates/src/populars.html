@@ -2,7 +2,7 @@
     <div class="card-body">
         <h4 class="card-title">Popular Tags</h4>
         {% for tag in pop_tags %}
-            <a href="#" class="card-link">{{ tag.title }}</a>
+            <a href="{% url 'tag' slug=tag.title %}" class="card-link">{{ tag.title }}</a>
         {% endfor %}
     </div>
 </div>

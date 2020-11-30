@@ -23,16 +23,18 @@
     <div class="col-4 nav-right-corner">
         {% if request.user.is_authenticated %}
             <p class="lead">
-                <div class="header__user-information">
-                    <img class="header__user-information__avatar" src="#" alt="Avatar">
-                    <a href="{% url 'settings' %}" class="header__user-information__link">{{ request.user.profile.nick }}</a>
-                    <a href="{% url 'logout' %}" class="base_link_v2">Logout</a>
+                <div class="header__user-information row">
+                    <div>
+                        <img class="header__user-information__avatar" src="{{ request.user.profile.get_avatar_url }}" width="50" height="50" alt="Avatar">
+                        <a href="{% url 'settings' %}" class="header__user-information__link">{{ request.user.profile.nick }}</a>
+                    </div>
+                    <a href="{% url 'logout' %}?next={{ request.path }}" class="base_link_v2">Logout</a>
                 </div>
             </p>
         {% else %}
             <ul class="list-inline">
                 <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Sign up</a>
-                <a class="btn btn-primary" href="{% url 'login' %}" role="button">Sign in</a>
+                <a class="btn btn-primary" href="{% url 'login' %}?next={{ request.path }}" role="button">Sign in</a>
             </ul>
         {% endif %}
     </div>

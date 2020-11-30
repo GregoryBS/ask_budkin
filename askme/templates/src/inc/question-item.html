@@ -3,7 +3,7 @@
 <div class="question-item">
     <div class="media text-muted pt-3 pb-2 mb-4 border-bottom border-gray">
         <div class="col-2 user-part">
-            <img class="bd-placeholder-img rounded" src="{% static 'img/avatar.png' %}" width="64" height="64" role="img"></img>
+            <img class="bd-placeholder-img rounded" src="{{ question.profile.get_avatar_url }}" width="64" height="64" role="img"></img>
             <div class="user-nickname">{{ question.profile.nick }}</div>
             <div class="question-date">{{ question.q_date }}</div>
         </div>
@@ -15,7 +15,7 @@
             <div class="question-tags">
                 <span>Tags:</span>
                 {% for tag in question.tags.all %}
-                    <a href="#">{{ tag.title }}</a>
+                    <a href="{% url 'tag' slug=tag.title %}">{{ tag.title }}</a>
                 {% endfor %}
             </div>
             <div class="question-answer-count">

@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <form class="form js-form-signup" action="{% url 'login' %}" method="post" >
+        <form class="form js-form-signup" action="{% url 'login' %}?next={{ next }}" method="post" >
             {% csrf_token %}
             <div class="form-group row">
                 <label for="login" class="col-sm-2 col-form-label">Login</label>

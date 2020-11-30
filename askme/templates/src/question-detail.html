@@ -7,7 +7,7 @@
     <div class="question-item">
         <div class="media text-muted pt-3 pb-2 mb-4 border-bottom border-gray">
             <div class="col-3 user-part">
-                <img class="bd-placeholder-img rounded" src="{% static 'img/avatar.png' %}" width="150" height="150" role="img"></img>
+                <img class="bd-placeholder-img rounded" src="{{ question.profile.get_avatar_url }}" width="150" height="150" role="img"></img>
                 <div class="user-nickname">{{ question.profile.nick }}</div>
                 <div class="question-date">{{ question.q_date }}</div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="question-tags">
                     <span>Tags:</span>
                     {% for tag in question.tags.all %}
-                        <a href="#">{{ tag.title }}</a>
+                        <a href="{% url 'tag' slug=tag.title %}">{{ tag.title }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -40,7 +40,7 @@
     {% include 'src/inc/pagination.html' %}
 
         <div class="form-answer mt-4">
-            <form class="form js-form-answer" action="#" method="post">
+            <form class="form js-form-answer" action="{% url 'answer' pk=question.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="que_id" value="">
                 <textarea class="form__answer__text" name="text" cols="80" rows="5" placeholder="Enter your answer"></textarea>

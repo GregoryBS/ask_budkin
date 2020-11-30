@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
@@ -9,9 +11,12 @@ class ProfileManager(models.Manager):
     pass
 
 class Profile(models.Model):
+    def avatar_filename(self, filename):
+        return os.path.join(filename)
+
     nick = models.CharField(max_length=30, verbose_name='Nickname')
-    avatar = models.ImageField(upload_to='../uploads/', null=True, 
-                               verbose_name='Avatar')
+    avatar = models.ImageField(upload_to=avatar_filename, 
+                               null=True, verbose_name='Avatar')
 
     user = models.OneToOneField(User, related_name="profile", 
                                 on_delete=models.CASCADE)
@@ -20,11 +25,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.nick
+    
+    def get_avatar_url(self):
+        return self.avatar.url
 
 class TagManager(models.Manager):
     def by_tag(self, tag_title):
         tag = self.get(title=tag_title)
-        return tag.question.all()
+        return tag.question.all() if tag else None
 
 class Tag(models.Model):
     title = models.CharField(max_length=30, verbose_name='Title of tag', 
@@ -50,7 +58,8 @@ class VoteManager(models.Manager):
     
 
 class Vote(models.Model):
-    value = models.SmallIntegerField(default=0, verbose_name='Like or not')
+    value = models.SmallIntegerField(default=0, verbose_name='Like or not', 
+                                     db_index=True)
 
     profile = models.ForeignKey(Profile, related_name='vote', 
                                 on_delete=models.CASCADE)

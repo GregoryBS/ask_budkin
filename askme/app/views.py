@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpRequest, Http404
 from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import *
-from .forms import LoginForm, ProfileForm, AskForm, AnswerForm
+from .forms import LoginForm, ProfileForm, AskForm, AnswerForm, SettingsForm
 import json
 
 tags = ['TWICE', 'Sana', 'Momo', '2YEON', 'Anime']
@@ -54,7 +54,8 @@ def questions_view(request, pk):
     return render(request, 'src/question-detail.html', {'pop_tags' : pop_tags,
                                                         'pop_users' : pop_users,
                                                         'question' : question,
-                                                        'page_objs' : page
+                                                        'page_objs' : page,
+                                                        'form' : AnswerForm(),
                                                         })
 
 def tags_view(request, slug):
@@ -76,7 +77,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 return redirect(next_page)
-            errors.append('Invalid username or password')
+        errors.append('Invalid username or password')
     else:
         form = LoginForm()
 
@@ -112,15 +113,15 @@ def settings_view(request):
     errors = []
     u = request.user
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+        form = SettingsForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save_changes(u.id)
+            form.save(u.id)
         else:
             errors = form.errors
     else:
-        form = ProfileForm({'username': u.username, 'password': u.password,
-                            'email': u.email, 'nick': u.profile.nick,
-                            'avatar': u.profile.avatar })
+        form = SettingsForm({'password': u.password,
+                             'email': u.email, 'nickname': u.profile.nick,
+                             'avatar': u.profile.avatar })
 
     return render(request, 'src/settings.html', {'form': form, 'errors': errors,
                                                  'pop_tags' : pop_tags,

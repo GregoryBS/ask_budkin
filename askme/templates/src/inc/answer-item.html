@@ -12,9 +12,16 @@
                 {{ answer.text }}
             </p>
 
-
-                <h6><div class="row pl-3"><input type="checkbox" name="correct" value="correct"/>Correct!</div></h6>
-
+            {% if request.user.profile == answer.question.profile %}
+                <h6>
+                    <div class="correct-box row pl-3">
+                        <input type="checkbox" name="correct" value="correct"/>
+                        <div class="pl-1">
+                            Correct!
+                        </div>
+                    </div>
+                </h6>
+            {% endif %}
         </div>
         <div class="col-1 vote-part">
             <button id="like_answer_{{ answer.id }}" type="submit" onclick="vote({{ answer.id }}, 1, 1)" class="btn btn-outline-success like">+</button>

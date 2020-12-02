@@ -8,7 +8,7 @@
 
     <div class="page-left-content">
         <div class="form-errors row">
-            <div class="col-sm-2"></div>
+            <div class="col-sm-3"></div>
             <div class="mx-sm-3">
                 {% for error in errors %}
                     <div>{{ error }}</div>
@@ -21,19 +21,19 @@
             <div class="form-group row">
                 <label for="login" class="col-sm-3 col-form-label">Login</label>
                 <div class="mx-sm-3">
-                    <input type="text" name="login" class="form-control">
+                    <input type="text" name="login" class="form-control" value="{{ form.data.login }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                 <div class="mx-sm-3">
-                    <input type="text" name="email" class="form-control">
+                    <input type="text" name="email" class="form-control" value="{{ form.data.email }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="nickname" class="col-sm-3 col-form-label">Nickname</label>
                 <div class="mx-sm-3">
-                    <input type="text" name="nickname" class="form-control">
+                    <input type="text" name="nickname" class="form-control" value="{{ form.data.nickname }}">
                 </div>
             </div>
             <div class="form-group row">
@@ -54,7 +54,7 @@
                     <input type="file" name="avatar" accept="image/png, image/jpg">
                 </div>
             </div>
-
+        
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="mx-sm-3">

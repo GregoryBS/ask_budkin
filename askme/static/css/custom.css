@@ -1,4 +1,4 @@
-.nav-right-corner {
+.nav-right-corner-unauth {
     margin-top: 15px;
 }
 
@@ -27,7 +27,19 @@
     padding-right: 14px;
 }
 
+.user-nickname {
+    word-break: break-all;
+}
+
+.form-errors {
+    color: red;
+}
+
+.correct-box {
+    display: -webkit-inline-box;
+}
+
 body {
     min-height: 75rem;
     padding-top: 7rem;
-  }
+}

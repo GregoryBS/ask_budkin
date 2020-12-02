@@ -20,19 +20,21 @@
         Ask!
     </a>
 
-    <div class="col-4 nav-right-corner">
+    <div class="col-4">
         {% if request.user.is_authenticated %}
-            <p class="lead">
-                <div class="header__user-information row">
-                    <div>
-                        <img class="header__user-information__avatar" src="{{ request.user.profile.get_avatar_url }}" width="50" height="50" alt="Avatar">
-                        <a href="{% url 'settings' %}" class="header__user-information__link">{{ request.user.profile.nick }}</a>
+                <div class="header__user-information">
+                    <div class="ml-3">
+                        <div class="row">
+                            <img class="rounded float-right mr-3" src="{{ request.user.profile.get_avatar_url }}" width="50" height="50" alt="Avatar">
+                            <div>
+                                <a href="{% url 'settings' %}" class="card-text user-settings">{{ request.user.profile.nick }}</a><br>
+                                <a href="{% url 'logout' %}?next={{ request.path }}" class="card-text logout-link">Logout</a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="{% url 'logout' %}?next={{ request.path }}" class="base_link_v2">Logout</a>
                 </div>
-            </p>
         {% else %}
-            <ul class="list-inline">
+            <ul class="list-inline nav-right-corner-unauth">
                 <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Sign up</a>
                 <a class="btn btn-primary" href="{% url 'login' %}?next={{ request.path }}" role="button">Sign in</a>
             </ul>

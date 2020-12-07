@@ -18,10 +18,10 @@ Web-project in technopark (askme)
 * Просмотр и проставление оценок к существующим вопросам и ответам
 
 # ER-model
-![er-model]()
+![er-model](https://github.com/GregoryBS/ask_budkin/blob/weblabs/askme/diagrams/Untitled%20Document.png)
 
 # Use-case diagram
-![use-case]()
+![use-case](https://github.com/GregoryBS/ask_budkin/blob/weblabs/askme/diagrams/Use%20case%20diagram(1).png)
 
 # Нагрузочное тестирование
-[Отчёт]()
+[Отчёт](https://github.com/GregoryBS/ask_budkin/blob/weblabs/test.md)

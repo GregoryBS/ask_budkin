@@ -5,9 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest, Http404
 from django.core.paginator import Paginator
 from django.utils import timezone
+
+import json
+
 from .models import *
 from .forms import LoginForm, ProfileForm, AskForm, AnswerForm, SettingsForm
-import json
 
 tags = ['TWICE', 'Sana', 'Momo', '2YEON', 'Anime']
 pop_tags = [{'title' : tags[i] } for i in range(5)]
@@ -37,7 +39,6 @@ def index_view(request):
                                               'pop_users' : pop_users,
                                               'page_objs' : page
                                               })
-
 
 def hot_view(request):
     top_questions = Question.objects.hot()
@@ -95,7 +96,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/')
+            return redirect('/api/v1/')
 
         errors = form.errors
 

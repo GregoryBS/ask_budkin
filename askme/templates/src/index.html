@@ -5,10 +5,10 @@
 
 {% block page-left %}
     <div class="content-title">
-        {% if request.path == "/" %}
+        {% if "/" in request.path %}
             <a href="{% url 'index' %}"><h4>New questions</h4></a>
             <a href="{% url 'hot' %}"><h6>Hot questions</h6></a>
-        {% elif request.path == "/hot/" %}
+        {% elif "/hot" in request.path %}
             <a href="{% url 'hot' %}"><h4>Hot questions</h4></a>
             <a href="{% url 'index' %}"><h6>New questions</h6></a>
         {% else  %}

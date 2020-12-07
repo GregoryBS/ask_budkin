@@ -1,0 +1,520 @@
+swagger: "2.0"
+info:
+  description: "This is server of question-answer app (like simple stackoverflow)."
+  version: "1.0"
+  title: "Askme"
+  contact:
+    name: "@one_piece4ever"
+
+host: "127.0.0.1"
+basePath: "/api/v2"
+
+tags:
+- name: "questions"
+  description: "Operations with questions"
+- name: "users"
+  description: "Operations with users"
+- name: "settings"
+  description: "Form of changing your information"
+- name: "tags"
+  description: "Operation with tags"
+schemes:
+- "https"
+
+paths:
+  /questions:
+    get:
+      tags:
+      - "questions"
+      summary: "Listing of all questions"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+    post:
+      tags:
+      - "questions"
+      summary: "Create new question"
+      description: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "title"
+        in: "formData"
+        description: "Title of question"
+        required: true
+        type: "string"
+      - name: "text"
+        in: "formData"
+        description: "Text of question"
+        required: true
+        type: "string"
+      - name: "tags"
+        in: "formData"
+        description: "Tags of new questions"
+        required: false
+        type: "string"
+      responses:
+        "405":
+          description: "Invalid input"
+      security:
+      - app_auth: []
+  /questions/new:
+    get:
+      tags:
+      - "questions"
+      summary: "Sort questions by creation date"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+  /questions/hot:
+    get:
+      tags:
+      - "questions"
+      summary: "Sort questions by rating"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+  /questions/{qId}:
+    get:
+      tags:
+      - "questions"
+      summary: "List question by id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "qId"
+        in: "path"
+        description: "ID of question"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "Question not found"
+  /questions/{qId}/answers:
+    get:
+      tags:
+      - "questions"
+      summary: "Listing of all answers to this question"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "qId"
+        in: "path"
+        description: "ID of question"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "Question not found"
+    post:
+      tags:
+      - "questions"
+      summary: "Create new answer to this question"
+      description: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "qId"
+        in: "path"
+        description: "ID of question"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "text"
+        in: "formData"
+        description: "Text of answer"
+        required: true
+        type: "string"
+      responses:
+        "405":
+          description: "Invalid input"
+      security:
+      - app_auth: []
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Listing of all active users"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+  /users/{uId}:
+    get:
+      tags:
+      - "users"
+      summary: "Public information about user"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uId"
+        in: "path"
+        description: "ID of user"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+      - "users"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uId"
+        in: "path"
+        description: "ID of user"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "User not found"
+      security:
+      - app_auth: []
+  /settings:
+    get:
+      tags:
+      - "settings"
+      summary: "Information that user can change"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+      security:
+      - app_auth: []
+    post:
+      tags:
+      - "settings"
+      summary: "Update information about user"
+      description: ""
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nickname"
+        in: "formData"
+        description: "Nick of user"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "formData"
+        description: "Email of user"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Password of user"
+        required: true
+        type: "string"
+      - name: "avatar"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Operation successful"
+      security:
+      - app_auth: []
+    patch:
+      tags:
+      - "settings"
+      summary: "Update information about user"
+      description: ""
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nickname"
+        in: "formData"
+        description: "Nick of user"
+        required: false
+        type: "string"
+      - name: "email"
+        in: "formData"
+        description: "Email of user"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Password of user"
+        required: false
+        type: "string"
+      - name: "avatar"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Operation successful"
+      security:
+      - app_auth: []
+  /tags:
+    get:
+      tags:
+      - "tags"
+      summary: "Listing of all used tags"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+  /tags/{slug}:
+    get:
+      tags:
+      - "tags"
+      summary: "Listing of questions with tag"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "slug"
+        in: "path"
+        description: "Title of tag"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Operation successful"
+  /signup:
+    get:
+      summary: "Form to create user"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+    post:
+      summary: "Form to create user"
+      description: ""
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "login"
+        in: "formData"
+        description: "Login (username) of user"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "formData"
+        description: "Email of user"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Password of user"
+        required: true
+        type: "string"
+      - name: "password_check"
+        in: "formData"
+        description: "Password repeat to confirm"
+        required: true
+        type: "string"
+      - name: "nickname"
+        in: "formData"
+        description: "Nickname (public) of user"
+        required: true
+        type: "string"
+      - name: "avatar"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "405":
+          description: "Invalid input"
+  /login:
+    get:
+      summary: "Form to authenticate user"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Operation successful"
+    post:
+      summary: "Form to authenticate user"
+      description: ""
+      consumes:
+      - "application/json"
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "login"
+        in: "formData"
+        description: "Login (username) of user"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Password of user"
+        required: true
+        type: "string"
+      responses:
+        "405":
+          description: "Invalid input"
+  /logout:
+    get:
+      summary: "Logs out current logged in user session"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+ 
+securityDefinitions:
+  app_auth:
+    type: "basic"
+
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+        description: "User password's hash"
+      is_active:
+        type: "boolean"
+        default: true
+  Profile:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      user_id:
+        type: "integer"
+        format: "int64"
+      nick:
+        type: "string"
+      avatar:
+        type: "string"
+        description: "path to file"
+  Tag:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+  Question:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      profile_id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      text:
+        type: "string"
+      tags:
+        type: "array"
+        items:
+          $ref: "#/definitions/Tag"
+      rating:
+        type: "integer"
+        format: "int64"
+        default: 0
+        description: "sum of likes and dislikes values"
+  Answer:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      profile_id:
+        type: "integer"
+        format: "int64"
+      question_id:
+        type: "integer"
+        format: "int64"
+      is_correct:
+        type: "boolean"
+        default: false
+      text:
+        type: "string"
+  Vote:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      profile_id:
+        type: "integer"
+        format: "int64"
+      object_id:
+        type: "integer"
+        format: "int64"
+      content_type_id:
+        type: "integer"
+        format: "int64"
+      value:
+        type: "integer"
+        format: "int64"

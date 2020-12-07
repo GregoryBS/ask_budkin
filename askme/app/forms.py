@@ -1,7 +1,6 @@
 from django import forms
 from django.utils import timezone
 from .models import User, Profile, Question, Answer, Tag
-from .models import ProfileManager, QuestionManager, AnswerManager, TagManager
 
 class LoginForm(forms.Form):
     login = forms.CharField()
@@ -60,7 +59,7 @@ class ProfileForm(forms.Form):
         return user
 
 class SettingsForm(forms.Form):
-    nickname = forms.CharField()
+    nick = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField()
     avatar = forms.ImageField(required=False)
@@ -69,7 +68,7 @@ class SettingsForm(forms.Form):
         data = self.cleaned_data
         p = data.get('password', '')
         e = data.get('email', '')
-        n = data.get('nickname', '')
+        n = data.get('nick', '')
         if p == '':
             raise forms.ValidationError('Password is empty', code='validation_error')
         elif e == '':
@@ -84,9 +83,10 @@ class SettingsForm(forms.Form):
         u.set_password(self.cleaned_data['password'])
         u.email = self.cleaned_data['email']
         u.save()
-        p.nick = self.cleaned_data['nickname']
+        p.nick = self.cleaned_data['nick']
         p.avatar = self.cleaned_data['avatar']
         p.save()
+        return p
 
 class AskForm(forms.Form):
     title = forms.CharField()
@@ -131,3 +131,4 @@ class AnswerForm(forms.Form):
     def save(self, qid, pid):
         a = Answer.objects.create(text=self.cleaned_data['answer'],
                                   a_date=timezone.now(), profile_id=pid, question_id=qid)
+        return a

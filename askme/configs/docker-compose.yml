@@ -1,0 +1,44 @@
+version: "3"
+services:
+  postgres:
+    image: library/postgres:13
+    container_name: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  nginx:
+    image: nginx:1.19.0
+    volumes:
+      - ./askme.conf:/etc/nginx/conf.d
+      - ../app/static:/static
+      - ../app/uploads:/uploads
+    ports:
+      - 80:80
+      - 443:443
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-storage:/var/lib/grafana/:rw
+
+volumes:
+  db-data:
+  grafana-storage:

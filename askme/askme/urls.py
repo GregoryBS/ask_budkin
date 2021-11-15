@@ -26,6 +26,7 @@ from app import views, rest_views
 schema_view = get_swagger_view(title='Askme')
 
 urlpatterns = [
+    url('', include('django_prometheus.urls')),
     path('django-admin/', admin.site.urls),
     # Legacy API
     path('api/v1/', views.index_view, name='index'),
